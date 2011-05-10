@@ -9,17 +9,46 @@
   %body
     :javascript
       $(function() {
-        console.log("lets go");
         var options = #{@gmap_options};
         $("#map").gMap(options);
+
+        var hideAll = function() {
+          $("#control-all").attr("checked", false);
+          $("#gallery img").each(function(i,e) {
+            console.log(e);
+            $(e).hide();
+
+          });
+        };
+
+        $("#control-all").bind('click', function() {
+          if($(this).is(':checked')) {
+            $("#gallery img").show();
+          } else {
+            $("#gallery img").hide();
+          }
+        });
+
+        $("#control-flash").bind('click', function() {
+          hideAll();
+          $("#gallery img.on-fired").show();
+        });
+
       })();
-    %h1 This is a gallery
+    %h1 Exif Visualizer
     %div#content
-      %h2 This is the content
+      %h2 Google Maps Ansicht
       %div#map{ :style => 'width: 800px; height: 500px;' }
+      %h2 Galerie-Ansicht
+      %div#controls
+        %input#control-all{ :type => 'checkbox', :value => 'all', :name => 'all' }
+        %label{ :for => 'all' } Alle anzeigen
+        %input#control-flash{ :type => 'checkbox', :value => 'flash', :name => 'flash' }
+        %label{ :for => 'all' } Nur mit Blitz anzeigen
       %div#gallery
-        - @thumb_images.each do |thumb_image|
-          %img{:src => '/images/' + thumb_image, :alt => 'Thumbnail', :style => 'display:none' }
+        - @thumb_images.each do |big_image, exif|
+          - if exif["Flash"] then css_classes = exif["Flash"].gsub(/\s/, "-").gsub(/(,|\.)/, "").downcase else css_classes = "" end
+          %img{:src => '/images/' + File.basename(big_image, ".JPG") + ".thumb.JPG", :alt => 'Thumbnail', :style => 'display:none', :class => css_classes }
 
         = #<script type="text/javascript">$('#content').click(function(e) {alert(e);});</script>
         = #@exif_data

@@ -71,7 +71,10 @@ class MyApp < Sinatra::Base
     end
 
     @gmap_options = importer.load_gmap_options @exif_data
-    @thumb_images = importer.load_thumbnails(no_path = true)
+    #@thumb_images = importer.load_thumbnails(no_path = true)
+
+    @thumb_images = @exif_data
+
     haml :gallery
   end
 
