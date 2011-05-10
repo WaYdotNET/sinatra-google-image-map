@@ -1,0 +1,13 @@
+!!!
+%html{html_attrs('de-DE')}
+  %head
+    %title Willkommen
+    %script{:type => 'text/javascript', :src => 'js/jquery-1.6.min.js'}
+    %link{:type => 'text/css', :rel => 'stylesheet', :media => 'screen', :href => 'style.css' }
+  %body
+    %h1 EXIF Visualizer
+    %div#content
+      %a{ :href => '/make_thumbnails'} Make Thumbnails
+      %a{ :href => '/load_exif_data'} Load Exif Data
+      %a{ :href => '/gallery'} Galerie
+

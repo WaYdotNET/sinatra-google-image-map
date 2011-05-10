@@ -1,0 +1,25 @@
+!!!
+%html{html_attrs('de-DE')}
+  %head
+    %title Gallery
+    %script{:type => 'text/javascript', :src => 'http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=true_or_false&amp;key=' + @google_api_key }
+    %script{:type => 'text/javascript', :src => 'js/jquery-1.6.min.js'}
+    %script{:type => 'text/javascript', :src => 'js/jquery.gmap-1.1.0-min.js'}
+    %link{:type => 'text/css', :rel => 'stylesheet', :media => 'screen', :href => 'style.css' }
+  %body
+    :javascript
+      $(function() {
+        console.log("lets go");
+        var options = #{@gmap_options};
+        $("#map").gMap(options);
+      })();
+    %h1 This is a gallery
+    %div#content
+      %h2 This is the content
+      %div#map{ :style => 'width: 800px; height: 500px;' }
+      %div#gallery
+        - @thumb_images.each do |thumb_image|
+          %img{:src => '/images/' + thumb_image, :alt => 'Thumbnail', :style => 'display:none' }
+
+        = #<script type="text/javascript">$('#content').click(function(e) {alert(e);});</script>
+        = #@exif_data
